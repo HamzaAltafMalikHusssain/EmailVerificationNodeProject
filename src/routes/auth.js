@@ -12,5 +12,4 @@ router.post('/register', register);
 router.post('/verify/code', verifyByCode);
 router.post('/verify/token', verifyByToken);
 
-// Export the router
 module.exports = router;

@@ -1,4 +1,4 @@
-// src/index.js - DEBUG VERSION
+// src/index.js - DEBUG VERSION (updated)
 require('dotenv').config();
 const express = require('express');
 const fs = require('fs');
@@ -6,6 +6,12 @@ const path = require('path');
 
 const app = express();
 app.use(express.json());
+
+// simple request logger to help debug Postman requests
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} ─ ${req.method} ${req.originalUrl}`);
+  next();
+});
 
 console.log('🔍 Debugging routes...');
 
@@ -84,7 +90,10 @@ app.get('/', (req, res) => {
 });
 
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+// bind to 0.0.0.0 so webcontainers / sandboxes can forward the port
+const HOST = process.env.HOST || '0.0.0.0';
+
+app.listen(PORT, HOST, () => {
+  console.log(`🚀 Server running on http://${HOST}:${PORT}`);
   console.log(`📊 Health check: http://localhost:${PORT}/healthz`);
 });

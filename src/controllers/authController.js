@@ -38,9 +38,14 @@ async function register(req, res) {
       createdAt: Date.now(),
     });
 
-    await sendVerificationEmail(email, { code, token }).catch((err) => {
+    // Send verification email (Mailtrap or other SMTP provider)
+    try {
+      const info = await sendVerificationEmail(email, { code, token });
+      // Optionally log info.messageId or preview info
+      console.log('sendVerificationEmail info:', info && info.messageId);
+    } catch (err) {
       console.error('email send failed', err);
-    });
+    }
 
     return res.status(201).json({ message: 'verification_sent' });
   } catch (err) {

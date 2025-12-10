@@ -1,13 +1,13 @@
+// src/utils/codeGen.js
 const { v4: uuidv4 } = require('uuid');
 
-// Generate a random 6-digit verification code
-function generateCode() {
-  return Math.floor(100000 + Math.random() * 900000).toString();
+function genCode() {
+  // 6-digit numeric code as a string
+  return String(Math.floor(100000 + Math.random() * 900000));
 }
 
-// Generate a unique token using UUID v4
-function generateToken() {
+function genToken() {
   return uuidv4();
 }
 
-module.exports = { generateCode, generateToken };
+module.exports = { genCode, genToken };
